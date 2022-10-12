@@ -1,0 +1,296 @@
+{
+  "licence": "Simple DirectMedia Layer\nCopyright (C) 1997-2022 Sam Lantinga <slouken@libsdl.org>\n\nThis software is provided 'as-is', without any express or implied\nwarranty.  In no event will the authors be held liable for any damages\narising from the use of this software.\n\nPermission is granted to anyone to use this software for any purpose,\nincluding commercial applications, and to alter it and redistribute it\nfreely, subject to the following restrictions:\n\n1. The origin of this software must not be misrepresented; you must not\nclaim that you wrote the original software. If you use this software\nin a product, an acknowledgment in the product documentation would be\nappreciated but is not required.\n2. Altered source versions must be plainly marked as such, and must not be\nmisrepresented as being the original software.\n3. This notice may not be removed or altered from any source distribution.\n",
+  "types": [
+    {
+      "name": "SDL_OptionalStringRef",
+      "export": false,
+      "type": "pointer",
+      "const": true,
+      "kind": "many",
+      "sentinel": 0,
+      "optional": true,
+      "child_type": "char"
+    }
+  ],
+  "modules": {
+    "sensor": {
+      "description": "SDL sensor event handling\n\nIn order to use these functions, SDL_Init() must have been called\nwith the ::SDL_INIT_SENSOR flag.  This causes SDL to scan the system\nfor sensors, and load appropriate drivers. { rest left out for brevity }",
+      "types": [
+        {
+          "name": "SDL_Sensor",
+          "type": "opaque"
+        },
+        {
+          "name": "SDL_SensorRef",
+          "export": false,
+          "type": "pointer",
+          "kind": "single",
+          "child_type": "SDL_Sensor"
+        },
+        {
+          "name": "SDL_SensorID",
+          "type": "Sint32",
+          "description": "This is a unique ID for a sensor for the time it is connected to the system, and is never reused for the lifetime of the application.\n\nThe ID value starts at 0 and increments from there. The value -1 is an invalid ID."
+        },
+        {
+          "name": "SDL_SensorType",
+          "type": "enum",
+          "description": "The different sensors defined by SDL\n\nAdditional sensors may be available, using platform dependent semantics.\nHare are the additional Android sensors:\n\nhttps://developer.android.com/reference/android/hardware/SensorEvent.html#values",
+          "items": [
+            {
+              "name": "SDL_SENSOR_INVALID",
+              "value": -1,
+              "description": "Returned for an invalid sensor"
+            },
+            {
+              "name": "SDL_SENSOR_UNKNOWN",
+              "value": 0,
+              "description": "Unknown sensor type"
+            },
+            {
+              "name": "SDL_SENSOR_ACCEL",
+              "value": 1,
+              "description": "Accelerometer"
+            },
+            {
+              "name": "SDL_SENSOR_GYRO",
+              "value": 2,
+              "description": "Gyroscope"
+            },
+            {
+              "name": "SDL_SENSOR_ACCEL_L",
+              "value": 3,
+              "description": "Accelerometer for left Joy-Con controller and Wii nunchuk"
+            },
+            {
+              "name": "SDL_SENSOR_GYRO_L",
+              "value": 4,
+              "description": "Gyroscope for left Joy-Con controller"
+            },
+            {
+              "name": "SDL_SENSOR_ACCEL_R",
+              "value": 5,
+              "description": "Accelerometer for right Joy-Con controller"
+            },
+            {
+              "name": "SDL_SENSOR_GYRO_R",
+              "value": 6,
+              "description": "Gyroscope for right Joy-Con controller"
+            }
+          ]
+        }
+      ],
+      "constants": [
+        {
+          "name": "SDL_STANDARD_GRAVITY",
+          "type": "float32",
+          "value": 9.80665,
+          "description": "Accelerometer sensor\n\nThe accelerometer returns the current acceleration in SI meters per\nsecond squared. This measurement includes the force of gravity, so\na device at rest will have an value of SDL_STANDARD_GRAVITY away\nfrom the center of the earth.\n\nvalues[0]: Acceleration on the x axis\nvalues[1]: Acceleration on the y axis\nvalues[2]: Acceleration on the z axis\n\nFor phones held in portrait mode and game controllers held in front of you,\nthe axes are defined as follows:\n-X ... +X : left ... right\n-Y ... +Y : bottom ... top\n-Z ... +Z : farther ... closer\n\nThe axis data is not changed when the phone is rotated.\n\n\\sa SDL_GetDisplayOrientation()"
+        }
+      ],
+      "functions": [
+        {
+          "name": "SDL_LockSensors",
+          "description": "Locking for multi-threaded access to the sensor API...."
+        },
+        {
+          "name": "SDL_UnlockSensors"
+        },
+        {
+          "name": "SDL_NumSensors",
+          "description": "...",
+          "return_type": "int"
+        },
+        {
+          "name": "SDL_SensorGetDeviceName",
+          "description": "...",
+          "return_type": "SDL_OptionalStringRef",
+          "parameters": [
+            {
+              "name": "device_index",
+              "parameter_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorGetDeviceType",
+          "description": "...",
+          "return_type": "SDL_SensorType",
+          "parameters": [
+            {
+              "name": "device_index",
+              "parameter_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorGetDeviceNonPortableType",
+          "description": "...",
+          "return_type": "int",
+          "parameters": [
+            {
+              "name": "device_index",
+              "parameter_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorGetDeviceInstanceID",
+          "description": "...",
+          "return_type": "SDL_SensorID",
+          "parameters": [
+            {
+              "name": "device_index",
+              "parameter_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorOpen",
+          "description": "...",
+          "return_type": {
+            "type": "pointer",
+            "kind": "single",
+            "optional": true,
+            "child_type": "SDL_Sensor"
+          },
+          "parameters": [
+            {
+              "name": "device_index",
+              "parameter_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorFromInstanceID",
+          "description": "...",
+          "return_type": {
+            "type": "pointer",
+            "const": false,
+            "kind": "single",
+            "optional": true,
+            "child_type": "SDL_Sensor"
+          },
+          "parameters": [
+            {
+              "name": "instance_id",
+              "parameter_type": "SDL_SensorID"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorGetName",
+          "description": "...",
+          "return_type": "SDL_OptionalStringRef",
+          "parameters": [
+            {
+              "name": "sensor",
+              "parameter_type": "SDL_SensorRef"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorGetType",
+          "description": "...",
+          "return_type": "SDL_SensorType",
+          "parameters": [
+            {
+              "name": "sensor",
+              "parameter_type": "SDL_SensorRef"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorGetNonPortableType",
+          "description": "...",
+          "return_type": "int",
+          "parameters": [
+            {
+              "name": "sensor",
+              "parameter_type": "SDL_SensorRef"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorGetInstanceID",
+          "description": "...",
+          "return_type": "SDL_SensorID",
+          "parameters": [
+            {
+              "name": "sensor",
+              "parameter_type": "SDL_SensorRef"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorGetData",
+          "description": "...",
+          "return_type": "int",
+          "parameters": [
+            {
+              "name": "sensor",
+              "parameter_type": "SDL_SensorRef"
+            },
+            {
+              "name": "data",
+              "parameter_type": {
+                "type": "pointer",
+                "kind": "many",
+                "child_type": "float"
+              }
+            },
+            {
+              "name": "num_values",
+              "parameter_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorGetDataWithTimestamp",
+          "description": "...",
+          "return_type": "int",
+          "parameters": [
+            {
+              "name": "sensor",
+              "parameter_type": "SDL_SensorRef"
+            },
+            {
+              "name": "timestamp",
+              "parameter_type": {
+                "type": "pointer",
+                "kind": "many",
+                "child_type": "Uint64"
+              }
+            },
+            {
+              "name": "data",
+              "parameter_type": {
+                "type": "pointer",
+                "kind": "many",
+                "child_type": "float"
+              }
+            },
+            {
+              "name": "num_values",
+              "parameter_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorClose",
+          "description": "...",
+          "parameters": [
+            {
+              "name": "sensor",
+              "parameter_type": "SDL_SensorRef"
+            }
+          ]
+        },
+        {
+          "name": "SDL_SensorUpdate",
+          "description": "..."
+        }
+      ]
+    }
+  }
+}
